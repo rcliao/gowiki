@@ -8,7 +8,7 @@ import (
 )
 
 // template caching
-var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+var templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html"))
 var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 
 type Page struct {
@@ -18,12 +18,12 @@ type Page struct {
 
 func (p *Page) save() error {
 	filename := p.Title + ".txt"
-	return ioutil.WriteFile(filename, p.Body, 0600)
+	return ioutil.WriteFile("data/"+filename, p.Body, 0600)
 }
 
 func loadPage(title string) (*Page, error) {
 	filename := title + ".txt"
-	body, err := ioutil.ReadFile(filename)
+	body, err := ioutil.ReadFile("data/" + filename)
 	if err != nil {
 		return nil, err
 	}
